@@ -1,6 +1,19 @@
 {
   "permissions": {
-    "allow": [],
-    "deny": []
-  }
+    "allow": [
+      "Bash(git status)",
+      "Bash(git diff:*)",
+      "Bash(git log:*)",
+      "Bash(npm run:*)",
+      "Bash(ls:*)",
+      "Bash(cat:*)",
+      "Bash(grep:*)",
+      "Bash(rg:*)"
+    ],
+    "deny": [
+      "Bash(git push --force:*)",
+      "Bash(rm -rf /:*)"
+    ]
+  },
+  "includeCoAuthoredBy": false
 }

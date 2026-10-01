@@ -1,0 +1,98 @@
+# TEMPLATE DE PROMPT — Diagrama de Arquitetura estilo "Placa de Circuito" por LLM
+
+> Padrão reutilizável para gerar imagens de diagrama de arquitetura via OpenRouter
+> (gemini-pro / gpt2-image) com a identidade visual fixa de rafaeltondin.com.br.
+> Decidido e validado em 2026-08-15 (posts Marketing Shopify MCP + Visão Operacional Marketing LLMs).
+> Doc de referência: KB `VISAO-OPERACIONAL-MARKETING-LLMS.md` e `DIAGRAMA-ARQUITETURA-MARKETING-MCP.md`.
+
+## COMO USAR
+
+1. Copie o bloco "ESQUELETO DO PROMPT" abaixo.
+2. Substitua os placeholders entre `{{...}}` pelos valores do post que está criando.
+3. Rode com `openrouter-image.mjs` (via `vault run --names=OPENROUTER_API_KEY`).
+4. Para o logo no rodapé: passe `--edit <caminho-do-logo-rafaeltondin.png>` como
+   referência visual — a IA vai incorporar o logotipo real no rodapé.
+
+## ESQUELETO DO PROMPT
+
+```
+Diagrama de arquitetura estilo "placa de circuito" premium para post de rede social. Identidade visual fixa da marca rafaeltondin.com.br: fundo escuro #0B0B0D com malha de pontos de solda sutil e uma luz quente laranja pontual embaixo; cards retangulares #17171D com borda #2a2a34 e faixa de acento laranja #F97316 no topo de cada card; trilhas ortogonais conectando os cards com portas de conexão coloridas (bolinhas nos pontos de ligação); texto em branco #FFFFFF e cinza claro #a9a9b4; fonte display moderna geométrica (Space Grotesk) para títulos e monoespaçada (JetBrains Mono) para rótulos. {{COR_DA_CAMADA_DE_DADOS}}. Logo "rafaeltondin.com.br" discreto no rodapé — usar EXATAMENTE o logo do arquivo de referência enviado junto (logotipo rafaeltondin.com.br), proporcional e discreto, sem brilho nem sombra laranja atrás. SEM emojis em qualquer lugar.
+
+Título no topo: "{{TITULO_DO_POST}}"
+Subtítulo logo abaixo: "{{SUBTITULO_DO_POST}}"
+
+Layout em {{NUMERO_CAMADAS}} camadas {{ORIENTACAO_LAYOUT}}, cada camada com um rótulo em pílula monoespaçada:
+{{LISTA_DE_CAMADAS_COM_ROTULOS}}
+
+TODOS os títulos e subtítulos em CAIXA ALTA (MAIÚSCULAS). Em cada card, mostrar O ÍCONE/LOGOTIPO OFICIAL DA MARCA correspondente ao serviço real daquele nó (não ícone genérico — o logo real reconhecível da empresa). Mapeamento:
+
+{{MAPEAMENTO_DE_CARDS_POR_CAMADA}}
+
+Setas conectando em linguagem de gente, rótulos em caixa alta:
+{{LISTA_DE_SETAS_ORIGEM_DESTINO_ROTULO}}
+
+Estilo premium, tecnológico, limpo, simétrico, bem distribuído ocupando toda a tela, sem texto cortado, sem borrar. Cada logo de marca deve ser reconhecível e proporcional ao card. Trilhas com cores diferentes por conexão para facilitar seguir qual seta vai pra qual peça. Aspecto de diagrama profissional pronto pra postar no {{DESTINO_POST}} {{OBSERVACAO_LAYOUT_EXTRA}}.
+```
+
+## PLACEHOLDERS
+
+- `{{TITULO_DO_POST}}` — título em CAIXA ALTA. Ex.: "MARKETING SHOPIFY MCP", "VISÃO OPERACIONAL DE MARKETING COM LLMS".
+- `{{SUBTITULO_DO_POST}}` — subtítulo em CAIXA ALTA. Ex.: "O CÉREBRO BUSCA OS DADOS", "O AGENTE PENSA, BUSCA E EXECUTA".
+- `{{COR_DA_CAMADA_DE_DADOS}}` — qual camada usa verde de acento. Padrão: "Camada de dados em verde #16A34A". Para outros acentos, ajustar a cor e o nome da camada.
+- `{{NUMERO_CAMADAS}}` — geralmente 4.
+- `{{ORIENTACAO_LAYOUT}}` — "verticais (de cima para baixo)" para feed/stories (1080x1350); "em grid horizontal 2x2" para LinkedIn (1200x627).
+- `{{LISTA_DE_CAMADAS_COM_ROTULOS}}` — uma linha por camada, no formato `1. "RÓTULO DA CAMADA" (posição)`. Ex.: `1. "VOCÊ FALA AQUI" (topo)`.
+- `{{MAPEAMENTO_DE_CARDS_POR_CAMADA}}` — para cada card: `Camada N — RÓTULO: - Card "TÍTULO" / subtítulo "SUBTÍTULO" — {{LOGO_OU_ICONE}}. Descrição: "DESCRIÇÃO CURTA EM CAIXA ALTA."`
+- `{{LISTA_DE_SETAS_ORIGEM_DESTINO_ROTULO}}` — uma linha por seta: `- De "CARD ORIGEM" → "CARD DESTINO": "ROTULO DA SETA"`.
+- `{{DESTINO_POST}}` — "Instagram" ou "LinkedIn".
+- `{{OBSERVACAO_LAYOUT_EXTRA}}` — vazio para feed; para LinkedIn, ", camadas em grid horizontal 2x2 aproveitando a largura".
+
+## REGRAS FIXAS (decididas 2026-08-15 — não mudar)
+
+1. **Verbo "busca", nunca "calcula":** o cérebro/agente BUSCA os dados, NUNCA "calcula". A inteligência é framed como buscar/cruzar fontes e decidir, não computar.
+2. **Copy NÃO genérica:** fundamentada em `descrever_painel`/`glossario` do painel-fiber MCP + casos de uso reais dos logs. Citar exemplos concretos (ROAS real cruzando GA4+Shopify, last-click não-direto, ETL 15min/06:00, MariaDB+AES-256-GCM+HMAC — NÃO SQLCipher).
+3. **Imagem por IA SEM `--edit` de diagrama renderizado:** só o prompt como base textual, deixar a IA ser criativa. Exceção: `--edit` com o LOGO do rafaeltondin.com.br é permitido e recomendado pra fixar o rodapé.
+4. **Logos oficiais das marcas** em cada nó (Shopify, Meta Ads, Google Analytics, Claude/Anthropic, WhatsApp) — não ícone genérico.
+5. **TODOS os títulos e subtítulos em CAIXA ALTA.**
+6. **Identidade visual fixa** rafaeltondin.com.br: fundo `#0B0B0D`, cards `#17171D` borda `#2a2a34`, laranja `#F97316`, verde `#16A34A` na camada de dados, texto `#FFFFFF`/`#a9a9b4`, fontes Space Grotesk + JetBrains Mono, malha de pontos sutil, luz quente pontual, logo no rodapé. SEM emoji.
+
+## COMANDOS DE GERAÇÃO
+
+### Feed/Instagram (1080x1350, 3:4)
+```bash
+D=<SESSION_DIR>
+VAULT_SESSION_TTL=86400 node ~/.claude/vault/vault-cli.js run --names=OPENROUTER_API_KEY -- \
+  node ~/.claude/scripts/openrouter-image.mjs "$(cat "$D/prompt-feed.txt")" \
+  --model gemini-pro --ar 3:4 --size 1080x1350 --n 2 \
+  --edit "$D/logo-rafaeltondin.png" \
+  --out "$D/<nome>-feed"
+```
+
+### LinkedIn (1200x627, 16:9)
+```bash
+D=<SESSION_DIR>
+VAULT_SESSION_TTL=86400 node ~/.claude/vault/vault-cli.js run --names=OPENROUTER_API_KEY -- \
+  node ~/.claude/scripts/openrouter-image.mjs "$(cat "$D/prompt-linkedin.txt")" \
+  --model gemini-pro --ar 16:9 --size 1200x627 --n 2 \
+  --edit "$D/logo-rafaeltondin.png" \
+  --out "$D/<nome>-linkedin"
+```
+
+- Modelo: `gemini-pro` (google/gemini-3-pro-image). Alternativa qualidade máxima: `gpt2`.
+- `--n 2` gera 2 variações (o script pode devolver mais por retry em 429/5xx).
+- Logo de referência: `~/.claude/scripts/diagrama-arquitetura/assets/logo-rafaeltondin.png` (copie pro `$SESSION_DIR` antes).
+- Chave `OPENROUTER_API_KEY` SEMPRE via `vault run`, nunca inline (vaza no histórico).
+
+## EXEMPLOS PREENCHIDOS
+
+- Feed "Visão Operacional Marketing LLMs": `prompt-ia-visao-operacional.txt` (no SESSION_DIR da sessão 2026-08-15).
+- LinkedIn do mesmo: `prompt-ia-visao-operacional-linkedin.txt`.
+- Feed "Marketing Shopify MCP": `prompt-ia-criativo.txt`.
+
+## TOM DAS LEGENDAS (acompanham a imagem, sem emoji)
+
+- **Instagram:** casual, minúsculas, tom Rafael, abreviações (pq/mt/q/vc), fecho com "!".
+- **LinkedIn:** profissional, tom de autoridade, caixa normal nos início de frase, números em escala técnica.
+- Cliente = "um cliente de ecommerce que atendo", NUNCA "minha loja".
+- Caso real de junho vs julho (ROAS 4.03 → 5.19, +29%; ads -21,84%; ticket +3,98%) quando o post for do MCP Fiber.
+- NUNCA expor número financeiro absoluto (faturamento/margem) de cliente — só escala técnica.
